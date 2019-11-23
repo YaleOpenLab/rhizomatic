@@ -11,6 +11,12 @@
   "icons": {
     "128": "icon-128.png"
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*.amazon.com/*"],
+      "js": ["injectRating.bundle.js"]
+    }
+  ],
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
