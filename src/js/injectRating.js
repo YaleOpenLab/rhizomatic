@@ -2,10 +2,18 @@ const greenColor = "#2a6355";
 
 window.addEventListener("load", (e)=>{
     //INJECTION CODE
-    const amazonPriceSection = document.getElementById("unifiedPrice_feature_div");
-    let rating = 4;
+    let sustainabilityScore = 4;
+    let cost = 3;
     let name = "Peanut Butter";
-    let ratingNode = document.createElement("DIV");   
+    let carbonAmount = '1';
+
+    addRatingButton(sustainabilityScore, name, carbonAmount, cost);
+
+
+});
+function addRatingButton(sustainabilityScore, name, carbonAmount, cost) {
+    const amazonPriceSection = document.getElementById("unifiedPrice_feature_div");
+    let ratingNode = document.createElement("DIV");
     ratingNode.style.padding = "5px";
     ratingNode.style.borderRadius = "15px";
     ratingNode.style.alignContent = "center";
@@ -13,50 +21,33 @@ window.addEventListener("load", (e)=>{
     ratingNode.style.alignItems = "center";
     ratingNode.style.width = "160px";
     ratingNode.style.height = "35px";
-
     ratingNode.style.whiteSpace = "nowrap";
-
     let mapIcon = document.createElement("mapIcon");
     mapIcon.innerHTML = miniWhiteMapSVG;
     mapIcon.style.paddingRight = "10px";
-
     let buttonRatingText = document.createElement("rating");
     buttonRatingText.style.borderStyle = "solid";
     buttonRatingText.style.borderWidth = "thin";
     buttonRatingText.style.padding = "2px";
     buttonRatingText.style.marginRight = "10px";
-    buttonRatingText.innerText=rating.toString();
-
-    let climateText  = document.createElement("climateText");
+    buttonRatingText.innerText = sustainabilityScore.toString();
+    let climateText = document.createElement("climateText");
     climateText.innerText = "Climate Rating >";
     climateText.style.fontSize = "12px";
     climateText.style.fontWeight = "600";
-
-
     ratingNode.appendChild(mapIcon);
     ratingNode.appendChild(buttonRatingText);
     ratingNode.appendChild(climateText);
-
     ratingNode.style.color = "White";
     ratingNode.style.background = greenColor;
-
     amazonPriceSection.prepend(ratingNode);
-
-
-
     //MODAL CODE
     const modalGlobe = document.createElement("mapIcon");
     modalGlobe.innerHTML = bigGreenMapSVG;
-
-    let popupRatingText = document.createElement("rating");
-    popupRatingText.innerText = rating.toString();
-
     let productName = document.createElement("h1");
     productName.style.color = greenColor;
     productName.innerText = name.toUpperCase();
     productName.style.fontSize = "14px";
-    
-
     let modalPopup = document.createElement("climatePopup");
     modalPopup.style.display = "none";
     modalPopup.style.color = 'black';
@@ -69,32 +60,64 @@ window.addEventListener("load", (e)=>{
     modalPopup.style.borderRadius = "20px";
     modalPopup.style.padding = "20px";
     modalPopup.style.flexDirection = "column";
-
+    modalPopup.style.width = "200px";
+    modalPopup.style.zIndex = "100";
     modalPopup.appendChild(modalGlobe);
     modalPopup.appendChild(productName);
-    
-    modalPopup.appendChild(popupRatingText);
-
-
+    modalPopup.appendChild(makeDivider());
+    modalPopup.appendChild(makeTitleWidget("Carbon"));
+    modalPopup.appendChild(makeDataWidget(carbonAmount, "gCO2e"));
+    modalPopup.appendChild(makeDivider());
+    modalPopup.appendChild(makeTitleWidget("Cost"));
+    modalPopup.appendChild(makeDataWidget(cost, "US$"));
+    modalPopup.appendChild(makeDivider());
+    modalPopup.appendChild(makeTitleWidget("Sustainability"));
+    modalPopup.appendChild(makeDataWidget(sustainabilityScore, ""));
     ratingNode.appendChild(modalPopup);
+    ratingNode.addEventListener("mouseover", (event) => {
+        console.log("Moused over climate rating");
+        showClimateInfoPopup(modalPopup);
+    });
+    ratingNode.addEventListener("mouseout", (event) => {
+        console.log("Moused away from climate rating");
+        closeClimateInfoPopup(modalPopup);
+    });
+}
+
+function makeDivider(){
+    let divider = document.createElement("div");
+    divider.style.height = "1px";
+    divider.style.marginBottom = "15px";
+    divider.style.marginTop = "15px";
+
+    divider.style.backgroundColor = "lightgray";
+    return divider;
+}
+function makeTitleWidget(title){
+    let titleWidget = document.createElement("h1");
+    titleWidget.style.fontSize = "16px";
+    titleWidget.style.color = "black";
+    titleWidget.style.fontWeight = "300";
+    titleWidget.innerText = title.toUpperCase();
+    return titleWidget;
+}
+function makeDataWidget(amount, measurement){
+    let dataWidget = document.createElement("measurementContainer");
+    dataWidget.style.color = greenColor;
+
+    let amountWidget = document.createElement("amount");
+    amountWidget.style.fontSize = "28px";
+    amountWidget.innerText = amount.toString();
+
+    let measurementWidget = document.createElement("measurement");
+    measurementWidget.style.fontSize = "13px";
+    measurementWidget.innerText = measurement;
+
+    dataWidget.appendChild(amountWidget);
+    dataWidget.appendChild(measurementWidget);
     
-    ratingNode.addEventListener(
-        "mouseover",
-        (event)=>{
-            console.log("Moused over climate rating");
-            showClimateInfoPopup(modalPopup);
-        }
-    );
-    ratingNode.addEventListener(
-        "mouseout",
-        (event)=>{
-            console.log("Moused away from climate rating");
-            closeClimateInfoPopup(modalPopup);
-        }
-    );
-
-
-});
+    return dataWidget;
+}
 function closeClimateInfoPopup(modalPopup){
     modalPopup.style.display = "none";
 }
