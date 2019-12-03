@@ -1,15 +1,12 @@
 <script> 
-export let name;
-export let currentproductco2eq;
-export let currentproductsustainabilityrating;
-export let city;
-export let currentproductoffsetcost;
+export let name="John Doe";
+export let currentproductco2eq="60";
+export let currentproductsustainabilityrating="3.4";
+export let city="Houston";
+export let currentproductoffsetcost= 0;
 </script>
 
-<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <title>Wallet_Username</title>
 <style id="applicationStylesheet" type="text/css">
 	.mediaViewInfo {
@@ -858,4 +855,3 @@ export let currentproductoffsetcost;
 	</div>
 </div>
 </body>
-</html>

@@ -1,12 +1,17 @@
-<h1>Hello {name}!</h1>
-<img alt="logo" src="/icon-128.png">
-
-<script> 
-export let name;
+<script>
+  import WalletUsername from "./WalletUsername.svelte";
 </script>
 
 <style>
-	h1 {
-		color: blue;
-	}
+  h1 {
+    color: blue;
+  }
+  body {
+    min-width: 1005px; /* your desired width */
+    max-width: 100%;
+    position: relative;
+    vertical-align: middle;
+  }
 </style>
+
+<WalletUsername />
